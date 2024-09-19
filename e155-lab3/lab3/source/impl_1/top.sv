@@ -16,9 +16,8 @@ module top (
         logic [3:0] val1;
         logic [3:0] val2;
         logic [3:0] sync_rows;
-        //sync sdut (int_osc, rows, sync_rows);
-        //keypad inst1 (int_osc, reset, sync_rows, cols, val1, val2);
-		 keypad inst1 (int_osc, reset, rows, cols, val1, val2);
+        sync sdut (int_osc, rows, sync_rows);
+        keypad inst1 (int_osc, reset, sync_rows, cols, val1, val2);
         multiplexedSevenSeg inst2 (val2, val1, int_osc, reset, segments, power2, power1);
 
 endmodule
@@ -49,13 +48,18 @@ module keypad (
         parameter S9 = 5'b01001;
         parameter S10 = 5'b01010;
         parameter S11 = 5'b11111;
-
+        parameter S12 = 5'b10000;
+        parameter S13 = 5'b10001;
+        parameter S14 = 5'b10010;
+        parameter S15 = 5'b10011;
+		
         // Will use these as helpers when we enter debouncing stage
         logic [3:0] initialRows;
         logic [3:0] initialCols;
         logic [8:0] counter;
         logic [8:0] noKeyCounter;
         logic valid;
+
 
 
         // State register
@@ -67,16 +71,20 @@ module keypad (
         // State transition logic
         always_comb
                 case (state)
-                        S0: nextState <= S1;
+                        S0: nextState <= S12;
+                        S12: nextState <= S1;
                         S1: if (rows == 4'b1111) nextState <= S2;
                                 else nextState <= S8;
-                        S2: nextState <= S3;
+                        S2: nextState <= S13;
+                        S13: nextState <= S3;
                         S3: if (rows == 4'b1111) nextState <= S4;
                                 else nextState <= S8;
-                        S4: nextState <= S5;
+                        S4: nextState <= S14;
+                        S14: nextState <= S5;
                         S5: if (rows == 4'b1111) nextState <= S6;
                                 else nextState <= S8;
-                        S6: nextState <= S7;
+                        S6: nextState <= S15;
+                        S15: nextState <= S7;
                         S7: if (rows == 4'b1111) nextState <= S0;
                                 else nextState <= S8;
                         S8: if (rows == 4'b1110 || rows == 4'b1101 || rows == 4'b1011 || rows == 4'b0111) nextState <= S11;
@@ -89,7 +97,7 @@ module keypad (
                         default: nextState <= S0;
                 endcase
 
-        // Output logic
+         // Output logic
         always_ff @(posedge clk)
                 case (state)
                         S0: cols <= 4'b1110;
@@ -148,20 +156,18 @@ module keypad (
                 endcase
 endmodule
 
-//module sync (
-//        input logic clk,
-  //      input logic [3:0] rows,
-     //   output logic [3:0] synch_rows
-//);
-//        logic [3:0] n1;
+module sync (
+        input logic clk,
+        input logic [3:0] rows,
+        output logic [3:0] synch_rows
+);
+        logic [3:0] n1;
 
-//      always_ff @(posedge clk)
-//        begin
-         //n1 <= rows;
-         //synch_rows <= n1;
-//		 synch_rows <= rows;
-  //      end
-//endmodule
+      always_ff @(posedge clk)
+        begin
+		 synch_rows <= rows;
+       end
+endmodule
 
 module sevenSeg (
         input logic [3:0] S,
