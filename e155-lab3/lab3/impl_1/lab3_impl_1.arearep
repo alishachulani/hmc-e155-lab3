@@ -1,0 +1,46 @@
+----------------------------------------------------------------------
+Report for cell top.TECH
+Register bits:  55 of 5280 (1.042%)
+I/O cells:      18
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                               CCU2        14          100.0
+                            FD1P3XZ        55          100.0
+                                 IB         5          100.0
+                              IOL_B         2          100.0
+                         LSOSC_CORE         1          100.0
+                               LUT4       111          100.0
+                                 OB        13          100.0
+SUB MODULES
+                             keypad         1
+                multiplexedSevenSeg         1
+                           sevenSeg         1
+                              TOTAL       204
+----------------------------------------------------------------------
+Report for cell keypad.v1
+Instance Path : inst1
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                FA2        10           71.4
+                            FD1P3XZ        44           80.0
+                               LUT4        98           88.3
+                              TOTAL       152
+----------------------------------------------------------------------
+Report for cell multiplexedSevenSeg.v1
+Instance Path : inst2
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                FA2         4           28.6
+                            FD1P3XZ        11           20.0
+                              IOL_B         2          100.0
+                               LUT4        12           10.8
+SUB MODULES
+                           sevenSeg         1
+                              TOTAL        30
+----------------------------------------------------------------------
+Report for cell sevenSeg.v1
+Instance Path : inst2.seg1
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                               LUT4         7            6.3
+                              TOTAL         7

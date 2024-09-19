@@ -1,0 +1,46 @@
+---------------------------------------------------
+Report for cell top
+   Instance path: top
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                 IOLGC	       2.00        100.0
+                                  LUT4	        152        100.0
+                               LUTGATE	        124        100.0
+                                LUTCCU	         28        100.0
+                                 IOREG	          2        100.0
+                                 IOBUF	         18        100.0
+                                PFUREG	         55        100.0
+SUB MODULES
+                                  cell	      count    LUT4 Usage(%)
+                                keypad	          1        75.0
+                   multiplexedSevenSeg	          1        13.2
+---------------------------------------------------
+Report for cell keypad
+   Instance path: top/inst1
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  LUT4	        114        75.0
+                               LUTGATE	         94        75.8
+                                LUTCCU	         20        71.4
+                                PFUREG	         44        80.0
+---------------------------------------------------
+Report for cell multiplexedSevenSeg
+   Instance path: top/inst2
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                 IOLGC	       2.00        100.0
+                                  LUT4	         20        13.2
+                               LUTGATE	         12         9.7
+                                LUTCCU	          8        28.6
+                                 IOREG	          2        100.0
+                                PFUREG	         11        20.0
+SUB MODULES
+                                  cell	      count    LUT4 Usage(%)
+                              sevenSeg	          1         4.6
+---------------------------------------------------
+Report for cell sevenSeg
+   Instance path: top/inst2/seg1
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  LUT4	          7         4.6
+                               LUTGATE	          7         5.6
