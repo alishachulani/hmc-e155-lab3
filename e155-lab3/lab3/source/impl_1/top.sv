@@ -47,11 +47,18 @@ module fsm(
         parameter S8 = 5'b01000;
         parameter S9 = 5'b01001;
         parameter S10 = 5'b01010;
-        parameter S11 = 5'b11111;
-        parameter S12 = 5'b10000;
-        parameter S13 = 5'b10001;
-        parameter S14 = 5'b10010;
-        parameter S15 = 5'b10011;
+        parameter S11 = 5'b01011;
+        parameter S12 = 5'b01100;
+        parameter S13 = 5'b01101;
+        parameter S14 = 5'b01110;
+        parameter S15 = 5'b01111;
+		parameter S16 = 5'b10000;
+		parameter S17 = 5'b10001;
+		parameter S18 = 5'b10010;
+		parameter S19 = 5'b10011;
+		parameter S20 = 5'b10100;
+		
+		
 		
         // Will use these as helpers when we enter debouncing stage
         logic [3:0] initialRows;
@@ -72,24 +79,29 @@ module fsm(
         always_comb
                 case (state)
                         S0: nextState <= S12;
-                        S12: nextState <= S1;
+						S12: nextState <= S16;
+                        S16: nextState <= S1;
                         S1: if (rows == 4'b1111) nextState <= S2;
                                 else nextState <= S8;
-                        S2: nextState <= S13;
+                        S2: nextState <= S17;
+						S17: nextState <= S13;
                         S13: nextState <= S3;
                         S3: if (rows == 4'b1111) nextState <= S4;
                                 else nextState <= S8;
-                        S4: nextState <= S14;
+                        S4: nextState <= S18;
+						S18: nextState <= S14;
                         S14: nextState <= S5;
                         S5: if (rows == 4'b1111) nextState <= S6;
                                 else nextState <= S8;
-                        S6: nextState <= S15;
+                        S6: nextState <= S19;
+						S19: nextState <= S15;
                         S15: nextState <= S7;
                         S7: if (rows == 4'b1111) nextState <= S0;
                                 else nextState <= S8;
                         S8: if (rows == 4'b1110 || rows == 4'b1101 || rows == 4'b1011 || rows == 4'b0111) nextState <= S11;
                                 else nextState <= S0;
-                        S11: nextState <= S9;
+                        S11: nextState <= S20;
+						S20: nextState <= S9;
                         S9: if (counterOff == 9'b111111111 && valid) nextState <= S10;
                                 else if (counterOff == 9'b111111111 && !valid) nextState <= S0;
                                 else nextState <= S9;
@@ -110,10 +122,11 @@ module fsm(
                                 initialRows <= rows;
                                 initialCols <= cols;
                                 valid <= 0;
+								cols <= 4'b0000;
                         end
                         // Debounce the input
                         S9: begin
-                                if (rows == initialRows && cols == initialCols) begin // Realistically cols can't change at this point, but check anyways to be safe
+                                if (rows == initialRows) begin // Realistically cols can't change at this point, but check anyways to be safe
                                         counterOff <= 0;
                                         if (counterOn == 9'b111111111) begin
                                                 if (!valid) begin
@@ -164,7 +177,8 @@ module sync (
 
       always_ff @(posedge clk)
         begin
-		 synch_rows <= rows;
+		 n1 <= rows;
+		 synch_rows <= n1;
        end
 endmodule
 
